@@ -1,0 +1,11 @@
+<div class="d-flex gap-2">
+    @for (tile of tiles(); track $index) {
+    <div
+        class="tile border border-1 rounded-2 d-flex justify-content-center align-items-center p-2 text-uppercase fw-bold fs-5"
+        [ngClass]="tile.status ?? ''"
+    >
+        {{ tile.value }}
+    </div>
+
+    }
+</div>
