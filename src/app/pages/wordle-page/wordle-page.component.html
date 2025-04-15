@@ -13,11 +13,7 @@
     </div>
 
     @if (solution()) {
-    <app-grid
-        [solution]="solution()"
-        [guesses]="guesses()"
-        [numberOfLetters]="NUMBER_OF_LETTERS"
-    ></app-grid>
+    <app-grid [solution]="solution()" [guesses]="guesses()"></app-grid>
     }
 
     <div>

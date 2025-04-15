@@ -27,9 +27,11 @@ export class WordlePageComponent implements OnInit {
     constructor(private readonly wordsService: WordsService) {}
 
     ngOnInit(): void {
-        this.wordsService.getWords(1, 5).subscribe((words) => {
-            this.solution.set(words[0]);
-        });
+        this.wordsService
+            .getWords(1, this.NUMBER_OF_LETTERS)
+            .subscribe((words) => {
+                this.solution.set(words[0]);
+            });
     }
 
     @HostListener('document:keydown', ['$event'])

@@ -9,7 +9,6 @@ import { LineComponent } from '../line/line.component';
     styleUrl: './grid.component.scss',
 })
 export class GridComponent {
-    numberOfLetters: InputSignal<number> = input.required();
     guesses: InputSignal<Guess[]> = input.required();
     solution: InputSignal<string> = input.required();
 

@@ -12,18 +12,15 @@ import { Tile } from '../../models/tile';
 export class LineComponent {
     guess: InputSignal<Guess> = input.required();
     solution: InputSignal<string> = input.required();
-    numberOfLetters: InputSignal<number> = input.required();
 
     tiles = computed(() => {
-        const tiles = new Array<Tile>(this.numberOfLetters());
         const guess = this.guess();
         const solution = this.solution();
+        const tiles = new Array<Tile>(solution.length);
 
-        const isMarkedArray = new Array<boolean>(this.numberOfLetters()).fill(
-            false
-        );
+        const isMarkedArray = new Array<boolean>(solution.length).fill(false);
 
-        for (let i = 0; i < this.numberOfLetters(); i++) {
+        for (let i = 0; i < solution.length; i++) {
             tiles[i] = { value: guess.value[i] || '' };
 
             if (guess.isConfirmed) {
