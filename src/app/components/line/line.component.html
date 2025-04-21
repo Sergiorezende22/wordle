@@ -1,11 +1,14 @@
 <div class="d-flex gap-2">
-    @for (tile of tiles(); track $index) {
+    @for (tile of tiles(); track $index; let idx = $index) {
     <div
-        class="tile border border-1 rounded-2 d-flex justify-content-center align-items-center p-2 text-uppercase fw-bold fs-5"
-        [ngClass]="tile.status ?? ''"
+        class="tile d-flex justify-content-center align-items-center p-2 text-uppercase fw-bold"
+        [ngClass]="[
+            tile.status ?? '',
+            !!tile.value && !tile.status ? 'with-letter' : ''
+        ]"
+        [ngStyle]="{ '--index': idx }"
     >
         {{ tile.value }}
     </div>
-
     }
 </div>

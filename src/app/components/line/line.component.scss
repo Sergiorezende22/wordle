@@ -1,16 +1,92 @@
 .tile {
-    width: 50px;
-    height: 50px;
+    width: 3.4rem;
+    height: 3.4rem;
+    font-size: 2rem;
+    border: 2px solid gray;
+
+    &.with-letter {
+        animation: pulse 0.1s ease-in-out alternate;
+        border-color: lightgray;
+    }
 
     &.correct {
-        background-color: green;
+        animation-name: rotate, reveal-correct;
     }
 
     &.present {
-        background-color: darkgoldenrod;
+        animation-name: rotate, reveal-present;
     }
 
     &.absent {
+        animation-name: rotate, reveal-absent;
+    }
+
+    &.correct,
+    &.present,
+    &.absent {
+        animation-duration: 0.5s, 0.25s;
+        animation-delay: calc(var(--index) * 0.2s);
+        animation-timing-function: ease-in;
+        animation-fill-mode: forwards;
+    }
+}
+
+@keyframes pulse {
+    from {
+        transform: scale(1.1);
+    }
+
+    to {
+        transform: scale(1);
+    }
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotateX(0deg);
+    }
+
+    50% {
+        transform: rotateX(90deg);
+    }
+
+    100% {
+        transform: rotateX(0deg);
+    }
+}
+
+@keyframes reveal-correct {
+    from {
+        background-color: transparent;
+        border-color: gray;
+    }
+
+    to {
+        background-color: green;
+        border-color: green;
+    }
+}
+
+@keyframes reveal-present {
+    from {
+        background-color: transparent;
+        border-color: gray;
+    }
+
+    to {
+        background-color: darkgoldenrod;
+        border-color: darkgoldenrod;
+    }
+}
+
+@keyframes reveal-absent {
+    from {
+        background-color: transparent;
+        border-color: gray;
+    }
+
+    to {
         background-color: darkgray;
+        border-color: darkgray;
     }
 }
