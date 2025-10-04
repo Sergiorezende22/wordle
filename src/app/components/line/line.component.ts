@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, input, InputSignal } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    computed,
+    input,
+    InputSignal,
+} from '@angular/core';
 import { Guess } from '../../models/guess';
 import { GameService } from '../../services/game.service';
 
@@ -8,6 +14,7 @@ import { GameService } from '../../services/game.service';
     imports: [CommonModule],
     templateUrl: './line.component.html',
     styleUrl: './line.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LineComponent {
     guess: InputSignal<Guess> = input.required();

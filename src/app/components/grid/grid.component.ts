@@ -1,4 +1,10 @@
-import { Component, input, InputSignal, signal } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    input,
+    InputSignal,
+    signal,
+} from '@angular/core';
 import { Guess } from '../../models/guess';
 import { LineComponent } from '../line/line.component';
 
@@ -7,6 +13,7 @@ import { LineComponent } from '../line/line.component';
     imports: [LineComponent],
     templateUrl: './grid.component.html',
     styleUrl: './grid.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GridComponent {
     guesses: InputSignal<Guess[]> = input.required();

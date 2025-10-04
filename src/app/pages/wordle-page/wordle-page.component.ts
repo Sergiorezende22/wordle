@@ -1,4 +1,10 @@
-import { Component, HostListener, OnInit, signal } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    HostListener,
+    OnInit,
+    signal,
+} from '@angular/core';
 import { GridComponent } from '../../components/grid/grid.component';
 import { Guess } from '../../models/guess';
 import { WordsService } from '../../services/words.service';
@@ -8,6 +14,7 @@ import { WordsService } from '../../services/words.service';
     imports: [GridComponent],
     templateUrl: './wordle-page.component.html',
     styleUrl: './wordle-page.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WordlePageComponent implements OnInit {
     readonly NUMBER_OF_GUESSES = 6;
