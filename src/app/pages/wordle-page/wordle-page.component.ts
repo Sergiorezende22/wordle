@@ -1,107 +1,33 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    HostListener,
-    OnInit,
-    signal,
-} from '@angular/core';
-import { GridComponent } from '../../components/grid/grid.component';
-import { Guess } from '../../models/guess';
-import { WordsService } from '../../services/words.service';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { GameComponent } from '../../components/game/game.component';
 
 @Component({
     selector: 'app-wordle-page',
-    imports: [GridComponent],
-    templateUrl: './wordle-page.component.html',
+    imports: [GameComponent],
+    template: `
+        <div class="w-100 d-flex flex-column align-items-center justify-content-between p-3" style="height: 100vh">
+            <div class="d-flex flex-column align-items-center justify-content-center">
+                <h1>Wordle</h1>
+                <p>Guess the word in 6 tries.</p>
+                <p>Each guess must be a valid 5-letter word.</p>
+                <p>
+                    After each guess, the color of the tiles will change to show how close your guess was to the word.
+                </p>
+            </div>
+
+            <app-game></app-game>
+
+            <div>
+                <h3>How to Play</h3>
+                <ul class="list-unstyled">
+                    <li><strong>Green:</strong> The letter is in the word and in the correct position.</li>
+                    <li><strong>Yellow:</strong> The letter is in the word but in the wrong position.</li>
+                    <li><strong>Gray:</strong> The letter is not in the word.</li>
+                </ul>
+            </div>
+        </div>
+    `,
     styleUrl: './wordle-page.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WordlePageComponent implements OnInit {
-    readonly NUMBER_OF_GUESSES = 6;
-    readonly NUMBER_OF_LETTERS = 5;
-
-    currentGuessIndex = 0;
-    gameOver = false;
-
-    solution = signal('');
-    guesses = signal(
-        new Array<Guess>(this.NUMBER_OF_GUESSES).fill({
-            value: '',
-            isConfirmed: false,
-        })
-    );
-
-    constructor(private readonly wordsService: WordsService) {}
-
-    ngOnInit(): void {
-        this.wordsService
-            .getWords(1, this.NUMBER_OF_LETTERS)
-            .subscribe((words) => {
-                this.solution.set(words[0]);
-            });
-    }
-
-    @HostListener('document:keydown', ['$event'])
-    handleKeyboardEvent(event: KeyboardEvent) {
-        if (this.gameOver) {
-            return;
-        }
-
-        const key = event.key.toLowerCase();
-        const currentGuess = this.guesses()[this.currentGuessIndex].value;
-
-        if (key === 'enter') {
-            if (currentGuess.length < this.NUMBER_OF_LETTERS) {
-                return;
-            }
-
-            if (
-                this.guesses().some(
-                    (guess) => guess.value === currentGuess && guess.isConfirmed
-                )
-            ) {
-                return;
-            }
-
-            if (!this.wordsService.wordExists(currentGuess)) {
-                return;
-            }
-
-            this.updateGuess(this.currentGuessIndex, {
-                value: currentGuess,
-                isConfirmed: true,
-            });
-            this.currentGuessIndex++;
-
-            if (
-                this.currentGuessIndex >= this.NUMBER_OF_GUESSES ||
-                currentGuess === this.solution()
-            ) {
-                this.gameOver = true;
-                return;
-            }
-        } else if (key === 'backspace') {
-            if (currentGuess.length > 0) {
-                this.updateGuess(this.currentGuessIndex, {
-                    value: currentGuess.slice(0, -1),
-                    isConfirmed: false,
-                });
-            }
-        } else if (/^[a-z]$/.test(key)) {
-            if (currentGuess.length < this.NUMBER_OF_LETTERS) {
-                this.updateGuess(this.currentGuessIndex, {
-                    value: currentGuess + key,
-                    isConfirmed: false,
-                });
-            }
-        }
-    }
-
-    updateGuess(index: number, value: Guess) {
-        this.guesses.update((prev) => {
-            const newGuesses = [...prev];
-            newGuesses[index] = value;
-            return newGuesses;
-        });
-    }
-}
+export class WordlePageComponent {}
